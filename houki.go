@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"gopkg.in/yaml.v2"
+	"io/ioutil"
 	"os"
 )
 
@@ -14,7 +16,26 @@ func removeDirectories(directories []string) {
 	}
 }
 
+func readConfigFile() {
+	configFile := os.Getenv("HOME") + "/.houki.yml"
+
+	buf, err := ioutil.ReadFile(configFile)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	m := make(map[interface{}]interface{})
+	err = yaml.Unmarshal(buf, &m)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%s\n", m["Directory"])
+}
+
 func main() {
+	readConfigFile()
 	directories := []string{"tmp"}
 	removeDirectories(directories)
 
