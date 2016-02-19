@@ -1,6 +1,7 @@
 package main
 
 import (
+	"./prompt"
 	"fmt"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
@@ -12,27 +13,8 @@ type Config struct {
 	Directory []string `yaml:"Directory"`
 }
 
-func confirmPrompt(prompt string, args ...interface{}) bool {
-	s := getStringFromStdin(prompt, args...)
-	switch s {
-	case "yes", "y", "Y":
-		return true
-	case "no", "n", "N":
-		return false
-	default:
-		return confirmPrompt(prompt, args...)
-	}
-}
-
-func getStringFromStdin(prompt string, args ...interface{}) string {
-	var s string
-	fmt.Printf(prompt, args...)
-	fmt.Scanln(&s)
-	return s
-}
-
 func removeDirectories(directories []string) {
-	if ok := confirmPrompt("Directories\n%s\n\nAre you sure you want to delete directories? ", strings.Join(directories, "\n")); !ok {
+	if ok := prompt.Confirm("Directories\n%s\n\nAre you sure you want to delete directories? ", strings.Join(directories, "\n")); !ok {
 		println("Do nothing")
 		return
 	}
