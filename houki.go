@@ -5,20 +5,44 @@ import (
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
+	"strings"
 )
 
 type Config struct {
 	Directory []string `yaml:"Directory"`
 }
 
-func removeDirectories(directories []string) {
-	for _, directory := range directories {
+func confirmPrompt(prompt string, args ...interface{}) bool {
+	s := getStringFromStdin(prompt, args...)
+	switch s {
+	case "yes", "y", "Y":
+		return true
+	case "no", "n", "N":
+		return false
+	default:
+		return confirmPrompt(prompt, args...)
+	}
+}
 
+func getStringFromStdin(prompt string, args ...interface{}) string {
+	var s string
+	fmt.Printf(prompt, args...)
+	fmt.Scanln(&s)
+	return s
+}
+
+func removeDirectories(directories []string) {
+	if ok := confirmPrompt("Directories\n%s\n\nAre you sure you want to delete directories? ", strings.Join(directories, "\n")); !ok {
+		println("Do nothing")
+		return
+	}
+
+	for _, directory := range directories {
 		if err := os.RemoveAll(directory); err != nil {
 			fmt.Println(err)
 		}
-		fmt.Printf("Remove: %s\n", directory)
 	}
+	fmt.Println("Have cleaned")
 }
 
 func readConfigFile() Config {
@@ -41,5 +65,4 @@ func main() {
 	config := readConfigFile()
 	removeDirectories(config.Directory)
 
-	fmt.Println("Have cleaned")
 }
