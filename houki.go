@@ -13,6 +13,14 @@ type Config struct {
 	Directory []string `yaml:"Directory"`
 }
 
+func reCreateDirectory(directory string) {
+	if err := os.RemoveAll(directory); err != nil {
+		fmt.Println(err)
+	} else {
+		os.Mkdir(directory, 0775)
+	}
+}
+
 func removeDirectories(directories []string) {
 	if ok := prompt.Confirm("Directories\n%s\n\nAre you sure you want to delete directories? ", strings.Join(directories, "\n")); !ok {
 		println("Do nothing")
@@ -20,11 +28,7 @@ func removeDirectories(directories []string) {
 	}
 
 	for _, directory := range directories {
-		if err := os.RemoveAll(directory); err != nil {
-			fmt.Println(err)
-		} else {
-			os.Mkdir(directory, 0775)
-		}
+		go reCreateDirectory(directory)
 	}
 	fmt.Println("Have cleaned")
 }
