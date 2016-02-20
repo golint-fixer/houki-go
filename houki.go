@@ -52,5 +52,4 @@ func readConfigFile() Config {
 func main() {
 	config := readConfigFile()
 	removeDirectories(config.Directory)
-
 }
