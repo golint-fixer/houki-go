@@ -1,0 +1,10 @@
+language: go
+
+go:
+  - 1.5
+
+go_import_path: github.com/y-yagi/houki-go
+
+install:
+  - go get gopkg.in/yaml.v2
+
