@@ -22,6 +22,8 @@ func removeDirectories(directories []string) {
 	for _, directory := range directories {
 		if err := os.RemoveAll(directory); err != nil {
 			fmt.Println(err)
+		} else {
+			os.Mkdir(directory, 0775)
 		}
 	}
 	fmt.Println("Have cleaned")
