@@ -23,7 +23,6 @@ func reCreateDirectory(directory string) {
 
 func removeDirectories(directories []string) {
 	if ok := prompt.Confirm("Directories\n%s\n\nAre you sure you want to delete directories? ", strings.Join(directories, "\n")); !ok {
-		println("Do nothing")
 		return
 	}
 
