@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/segmentio/go-prompt"
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
 	"strings"
+
+	"github.com/segmentio/go-prompt"
+	"gopkg.in/yaml.v2"
 )
 
 type Config struct {
