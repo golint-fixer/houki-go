@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"sync"
 	"testing"
 )
 
@@ -23,7 +24,9 @@ func TestReCreateDirectory(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	reCreateDirectory(dir)
+	var wg sync.WaitGroup
+	wg.Add(1)
+	reCreateDirectory(dir, &wg)
 	_, err = os.Stat(tmpfn)
 	expect := fmt.Sprintf("stat %s: no such file or directory", tmpfn)
 	if err.Error() != expect {
