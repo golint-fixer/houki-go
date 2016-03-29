@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
+	"sync"
 
 	"github.com/segmentio/go-prompt"
 	"gopkg.in/yaml.v2"
@@ -14,7 +15,8 @@ type Config struct {
 	Directory []string `yaml:"Directory"`
 }
 
-func reCreateDirectory(directory string) {
+func reCreateDirectory(directory string, wg *sync.WaitGroup) {
+	defer wg.Done()
 	if err := os.RemoveAll(directory); err != nil {
 		fmt.Println(err)
 	} else {
@@ -27,9 +29,12 @@ func removeDirectories(directories []string) {
 		return
 	}
 
+	var wg sync.WaitGroup
 	for _, directory := range directories {
-		go reCreateDirectory(directory)
+		wg.Add(1)
+		go reCreateDirectory(directory, &wg)
 	}
+	wg.Wait()
 	fmt.Println("Have cleaned")
 }
 
