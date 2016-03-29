@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"strings"
 	"sync"
 
+	"github.com/apcera/termtables"
 	"github.com/segmentio/go-prompt"
 	"gopkg.in/yaml.v2"
 )
@@ -25,7 +25,13 @@ func reCreateDirectory(directory string, wg *sync.WaitGroup) {
 }
 
 func removeDirectories(directories []string) {
-	if ok := prompt.Confirm("Directories\n%s\n\nAre you sure you want to delete directories? ", strings.Join(directories, "\n")); !ok {
+	table := termtables.CreateTable()
+	table.AddHeaders("Directories")
+	for _, directory := range directories {
+		table.AddRow(directory)
+	}
+
+	if ok := prompt.Confirm("%s\nAre you sure you want to delete directories? ", table.Render()); !ok {
 		return
 	}
 
