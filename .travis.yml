@@ -6,3 +6,4 @@ go:
 install:
   - go get gopkg.in/yaml.v2
   - go get github.com/segmentio/go-prompt
+  - go get github.com/apcera/termtables
