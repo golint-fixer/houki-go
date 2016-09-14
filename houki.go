@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"sync"
 
 	"github.com/apcera/termtables"
@@ -45,7 +46,7 @@ func removeDirectories(directories []string) {
 }
 
 func readConfigFile() Config {
-	configFile := os.Getenv("HOME") + "/.houki.yml"
+	configFile := filepath.Join(os.Getenv("HOME"), ".config", "houki", "config.yml")
 
 	buf, err := ioutil.ReadFile(configFile)
 	if err != nil {
