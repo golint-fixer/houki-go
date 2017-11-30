@@ -1,4 +1,4 @@
-package main
+package houki
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 )
 
 func TestReCreateDirectory(t *testing.T) {
+	var houki Houki
 	content := []byte("temporary file's content")
 	dir, err := ioutil.TempDir("", "example")
 	if err != nil {
@@ -26,7 +27,7 @@ func TestReCreateDirectory(t *testing.T) {
 
 	var wg sync.WaitGroup
 	wg.Add(1)
-	reCreateDirectory(dir, &wg)
+	houki.reCreateDirectory(dir, &wg)
 	_, err = os.Stat(tmpfn)
 	expect := fmt.Sprintf("stat %s: no such file or directory", tmpfn)
 	if err.Error() != expect {
