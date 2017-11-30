@@ -9,6 +9,7 @@ import (
 	"github.com/segmentio/go-prompt"
 )
 
+// Houki type for houki
 type Houki struct{}
 
 func (h *Houki) reCreateDirectory(directory string, wg *sync.WaitGroup) {
@@ -20,6 +21,7 @@ func (h *Houki) reCreateDirectory(directory string, wg *sync.WaitGroup) {
 	}
 }
 
+// RemoveDirectories remove specified directories
 func (h *Houki) RemoveDirectories(directories []string) {
 	table := termtables.CreateTable()
 	table.AddHeaders("Directories")
