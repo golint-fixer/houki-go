@@ -8,3 +8,10 @@ install:
   - go get gopkg.in/yaml.v2
   - go get github.com/segmentio/go-prompt
   - go get github.com/apcera/termtables
+
+before_script:
+  - go vet $(go list ./... | grep -vF /vendor/)
+  - golint -set_exit_status $(go list ./... | grep -vF /vendor/)
+
+script:
+  - go test -v
