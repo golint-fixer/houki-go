@@ -26,10 +26,10 @@
   version = "v0.0.2"
 
 [[projects]]
+  branch = "master"
   name = "github.com/segmentio/go-prompt"
   packages = ["."]
-  revision = "0be3d6bb7dff1db1f7d4127e5861ce97772dd891"
-  version = "v1.2.0"
+  revision = "f0d19b6901ade831d5a3204edc0d6a7d6457fbb2"
 
 [[projects]]
   branch = "master"
@@ -52,6 +52,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "da9a9152ed4eee493e4afc14477baccf1816c7059b8c9ddf21d05916836750be"
+  inputs-digest = "d31398be5ddaceaced64ca1a7c8c609541a527a268ba8b3a8880d586c543ffe4"
   solver-name = "gps-cdcl"
   solver-version = 1
