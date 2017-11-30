@@ -8,5 +8,5 @@
 Use `go get` to install this package:
 
 ```bash
-$ go get github.com/y-yagi/houki-go
+$ go get github.com/y-yagi/houki-go/cmd/houki
 ```
