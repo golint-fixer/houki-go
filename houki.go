@@ -1,22 +1,17 @@
-package main
+package houki
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
-	"path/filepath"
 	"sync"
 
 	"github.com/apcera/termtables"
 	"github.com/segmentio/go-prompt"
-	"gopkg.in/yaml.v2"
 )
 
-type Config struct {
-	Directory []string `yaml:"Directory"`
-}
+type Houki struct{}
 
-func reCreateDirectory(directory string, wg *sync.WaitGroup) {
+func (h *Houki) reCreateDirectory(directory string, wg *sync.WaitGroup) {
 	defer wg.Done()
 	if err := os.RemoveAll(directory); err != nil {
 		fmt.Println(err)
@@ -25,7 +20,7 @@ func reCreateDirectory(directory string, wg *sync.WaitGroup) {
 	}
 }
 
-func removeDirectories(directories []string) {
+func (h *Houki) RemoveDirectories(directories []string) {
 	table := termtables.CreateTable()
 	table.AddHeaders("Directories")
 	for _, directory := range directories {
@@ -39,29 +34,8 @@ func removeDirectories(directories []string) {
 	var wg sync.WaitGroup
 	for _, directory := range directories {
 		wg.Add(1)
-		go reCreateDirectory(directory, &wg)
+		go h.reCreateDirectory(directory, &wg)
 	}
 	wg.Wait()
 	fmt.Println("Have cleaned")
-}
-
-func readConfigFile() Config {
-	configFile := filepath.Join(os.Getenv("HOME"), ".config", "houki", "config.yml")
-
-	buf, err := ioutil.ReadFile(configFile)
-	if err != nil {
-		panic(err)
-	}
-
-	var parsedMap Config
-	if err = yaml.Unmarshal(buf, &parsedMap); err != nil {
-		panic(err)
-	}
-
-	return parsedMap
-}
-
-func main() {
-	config := readConfigFile()
-	removeDirectories(config.Directory)
 }
