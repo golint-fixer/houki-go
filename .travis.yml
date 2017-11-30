@@ -5,10 +5,9 @@ go:
   - 1.9
 
 install:
-  - go get gopkg.in/yaml.v2
-  - go get github.com/segmentio/go-prompt
-  - go get github.com/apcera/termtables
   - go get -u github.com/golang/lint/golint
+  - go get -u github.com/golang/dep/cmd/dep
+  - dep ensure
 
 before_script:
   - go vet $(go list ./... | grep -vF /vendor/)
